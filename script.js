@@ -129,7 +129,7 @@ function imagesAPI(){
     })
     .then(imagesResponseJson => displayImages(imagesResponseJson))
     .catch(err => {
-      $('#imagesResults').html(`<p>No images found. Try a different location---${err.message}</p>`);
+      $('#imagesResults').html(`<p>No images found. Try a different location.</p>`);
       //Error Message if zero photos are returned
     });
 }
@@ -141,19 +141,19 @@ function displayImages(imagesResponseJson){
   $('#imagesResults').html(imageSRC(imagesResponseJson.hits[0].webformatURL));
   //Start the 'displayImages' with the html of the first image, and append the following results after 
  
-  if(imagesResponseJson.hits.length>=1&&imagesResponseJson.hits.length<=10){
+  if(imagesResponseJson.hits.length>=1&&imagesResponseJson.hits.length<=8){
     for(let i=1; i<imagesResponseJson.length; ++i){
       $('#imagesResults').append(imageSRC(imagesResponseJson.hits[i].webformatURL));
     }
   }
-  //If between 1 and 10 images are returned, display the each photo
+  //If between 1 and 8 images are returned, display the each photo
 
-  if(imagesResponseJson.hits.length>10){
-    for(let i=1; i<10; ++i){
+  if(imagesResponseJson.hits.length>8){
+    for(let i=1; i<8; ++i){
       $('#imagesResults').append(imageSRC(imagesResponseJson.hits[i].webformatURL));
     }
   }
-  //If more than 10 photos are returned, display 10 of them
+  //If more than 8 photos are returned, display 8 of them
 
 }
 

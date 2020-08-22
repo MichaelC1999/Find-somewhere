@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Go somewhere</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+  <body>
+    <h1>Need a change of place?</h1>
+
+    <h4>Let me help you stay inspired.<br>Enter in a place that you are interested in visiting to see whether or not it is a tech hub.</h4>
+    
+      <form id="city-form">
+            <label for="search-city-input">What place interests you?</label><br>
+            <input type="text" name="search-city-input" id="search-city-input" maxlength="30" value="Paris" required><br>
+        
+            <input id="citySubmit" type="submit" value="Show results">
+        </form>
+
+    <div class="startImagesGroup">
+      <img class="startImg" src="city.jpg" alt="city 1">
+      <img class="startImg" src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Napoli-densit%C3%A0urbana.jpg" alt="city 2">
+      <img class="startImg" src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chicago_River_ferry.jpg" alt="city 3">
+    </div>
+
+
+    <div class="results-container">
+      <div id="githubResults"></div>
+      <div id="imagesResults"></div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

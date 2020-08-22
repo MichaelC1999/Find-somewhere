@@ -5,6 +5,7 @@ function gitHubAPI(){
   //function to get a list of users in the given city, using github API
   console.log('githubAPI-'+ city);
  
+  /*
   var requestOptions = {
     method: 'GET',
     headers: {
@@ -12,26 +13,27 @@ function gitHubAPI(){
     },
     redirect: 'follow'
   };
+  */
   //requestOptions is authorization header
 
   const gitURL = 'https://api.github.com/search/users?q=location:' + city +'';
   //Add user input city to GET Url
 
-  fetch(gitURL, requestOptions)
+  fetch(gitURL)
     .then(response => {
       if (response.ok) {
         return response.json();
       }
       throw new Error(response.statusText);
     })
-    .then(userResponseJson => displayGit(userResponseJson, requestOptions))
+    .then(userResponseJson => displayGit(userResponseJson))
     .catch(err => {
       $('#githubResults').text(`Something went wrong FETCHING github results: ${err.message}`);
       //Error message if Github API fails to return
     });
 }
 
-function displayGit(userResponseJson, requestOptions){
+function displayGit(userResponseJson){
   //function to display Github return
 
   console.log(userResponseJson);

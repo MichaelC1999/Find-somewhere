@@ -5,7 +5,7 @@ function gitHubAPI(){
   //function to get a list of users in the given city, using github API
   console.log('githubAPI-'+ city);
  
-  /*
+ /*
   var requestOptions = {
     method: 'GET',
     headers: {
@@ -16,7 +16,10 @@ function gitHubAPI(){
   */
   //requestOptions is authorization header
 
-  const gitURL = 'https://api.github.com/search/users?q=location:' + city +'';
+  /*NOTE When this file was pushed to github, the Authorization token was revoked. I have changed it to fetch results without the token, but unauthorized requests are limited to 60 requests/hour
+  */
+
+  const gitURL = 'https://api.github.com/search/users?q=location:' + city;
   //Add user input city to GET Url
 
   fetch(gitURL)
@@ -60,7 +63,7 @@ function displayGit(userResponseJson){
 
   
 
-  $('#githubResults').html('<p>'+ resultsMessage + '</p><ul id="userList"></ul>');
+  $('#githubResults').html(startResultsHTML(resultsMessage));
   //Return a message saying how many users are in the area, and create the userList UL
 
   for(let i = 0; i<maxResults; ++i){
@@ -72,18 +75,32 @@ function displayGit(userResponseJson){
   //Create URL to search for more users
 
   if(userResponseJson.total_count>30){
-    $('#githubResults').append('<a href="'+findMoreUsersURL+'">Want to see more users in '+city+'? click here!</a>');
+    $('#githubResults').append(userSearchOnSite(findMoreUsersURL));
     //Link to github search
   }
 
   if(userResponseJson.total_count>5){
-    $('#githubResults').append('<p class="noMobile">Message some of these users, and ask about the local tech scene in '+city+'. This is a good way to meet some locals who share your passion for programming. The idea for this API was how I made a connection to startups in Brazil. A shot in the dark email turned into an opportunity and a life-long friend.</p>');
+    $('#githubResults').append(motivationMessage());
     //Message about ispiration for the program
   }
     
 }
 
+function motivationMessage(){
+  return '<p class="noMobile">Message some of these users, and ask about the local tech scene in '+city+'. This is a good way to meet some locals who share your passion for programming. The idea for this API was how I made a connection to startups in Brazil. A shot in the dark email turned into an opportunity and a life-long friend.</p>';
+}
+
+function userSearchOnSite(findMoreUsersURL){
+  return '<a href="'+findMoreUsersURL+'">Want to see more users in '+city+'? click here!</a>';
+}
+
+function startResultsHTML(resultsMessage){
+  return '<p>'+ resultsMessage + '</p><ul id="userList"></ul>';
+}
+
 function githubProfile(userResponseJson, i){
+  //function that produces HTML for each returned user
+
   let mobileHide="";
 
   if(i>=12){
@@ -92,8 +109,7 @@ function githubProfile(userResponseJson, i){
   }
 
   $('#userList').append('<li '+mobileHide+'><img class="avatarPic" src ="'+userResponseJson.items[i].avatar_url+'"><a href="'+userResponseJson.items[i].html_url+'">'+userResponseJson.items[i].login+'</a><a href="'+userResponseJson.items[i].repos_url+'">Public repos</a></li>');
-  //create HTML for each list element about a user
-  
+  //create HTML for each list element about a user 
 }
 
 function imagesAPI(){
@@ -120,51 +136,54 @@ function imagesAPI(){
 
 function displayImages(imagesResponseJson){
   //Function to display images returned from fetch pixabay API
-  console.log(imagesResponseJson)
+  console.log(imagesResponseJson);
 
-  $('#imagesResults').html('<img src="'+imagesResponseJson.hits[0].webformatURL+'">')
+  $('#imagesResults').html(imageSRC(imagesResponseJson.hits[0].webformatURL));
+  //Start the 'displayImages' with the html of the first image, and append the following results after 
  
   if(imagesResponseJson.hits.length>=1&&imagesResponseJson.hits.length<=10){
-    for(let i=0; i<imagesResponseJson.length; ++i){
-      $('#imagesResults').append('<img src="'+imagesResponseJson.hits[i].webformatURL+'">')
+    for(let i=1; i<imagesResponseJson.length; ++i){
+      $('#imagesResults').append(imageSRC(imagesResponseJson.hits[i].webformatURL));
     }
   }
   //If between 1 and 10 images are returned, display the each photo
 
   if(imagesResponseJson.hits.length>10){
     for(let i=1; i<10; ++i){
-      $('#imagesResults').append('<img src="'+imagesResponseJson.hits[i].webformatURL+'">')
+      $('#imagesResults').append(imageSRC(imagesResponseJson.hits[i].webformatURL));
     }
   }
   //If more than 10 photos are returned, display 10 of them
 
 }
 
+function imageSRC(URL){
+  return '<img src="' + URL + '">';
+}
 
 function submitForm(){
   $('#city-form').on("click", "#citySubmit", event =>{
     //First event, watch for click on go button
     event.preventDefault();
     
-    $('.startImagesGroup').hide()
-    $('h2').hide()
-    $('h4').hide()
+    $('.startImagesGroup').hide();
+    $('h4').hide();
     //Hide unnecessary starting elements
 
-    city = $('#search-city-input').val()
+    city = $('#search-city-input').val();
     //global variable city is equal to user text input
     
     city = city.charAt(0).toUpperCase() + city.slice(1);
     //capitalize first letter of 'city' for clean results return
     
-    console.log(city)
+    console.log(city);
     $('#githubResults').html('');
     //Clear githubResults ID
-    $('#imagesResults').html('')
+    $('#imagesResults').html('');
     //Clear imagesResults ID
 
-    $('#githubResults').html('<h4 class="load">GITHUB RESULTS LOADING...</h4>')
-    $('#imagesResults').html('<h4 class="load">IMAGE RESULTS LOADING...</h4>')
+    $('#githubResults').html('<h4 class="load">GITHUB RESULTS LOADING...</h4>');
+    $('#imagesResults').html('<h4 class="load">IMAGE RESULTS LOADING...</h4>');
     //Loading API response from both sources
 
     gitHubAPI(city);

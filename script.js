@@ -31,7 +31,7 @@ function gitHubAPI(){
     })
     .then(userResponseJson => displayGit(userResponseJson))
     .catch(err => {
-      $('#githubResults').text(`Something went wrong FETCHING github results: ${err.message}`);
+      $('#githubResults').html(`<p>Something went wrong FETCHING github results: ${err.message}</p>`);
       //Error message if Github API fails to return
     });
 }
@@ -129,7 +129,7 @@ function imagesAPI(){
     })
     .then(imagesResponseJson => displayImages(imagesResponseJson))
     .catch(err => {
-      $('#imagesResults').text(`No images found. Try a different location---${err.message}`);
+      $('#imagesResults').html(`<p>No images found. Try a different location---${err.message}</p>`);
       //Error Message if zero photos are returned
     });
 }
@@ -190,7 +190,7 @@ function submitForm(){
     imagesAPI(city);
     //Take string input, and search using that city    
 
-  })
+  });
 }
 
 $(submitForm)

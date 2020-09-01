@@ -108,7 +108,7 @@ function githubProfile(userResponseJson, i){
     //After the 12th item, add the 'noMobile' class to hide for mobile users
   }
 
-  $('#userList').append('<li '+mobileHide+'><img class="avatarPic" src ="'+userResponseJson.items[i].avatar_url+'"><a href="'+userResponseJson.items[i].html_url+'">'+userResponseJson.items[i].login+'</a><a href="https://github.com/'+userResponseJson.items[i].owner.login+'?tab=repositories">Public repos</a></li>');
+  $('#userList').append('<li '+mobileHide+'><img class="avatarPic" src ="'+userResponseJson.items[i].avatar_url+'"><a href="'+userResponseJson.items[i].html_url+'">'+userResponseJson.items[i].login+'</a><a href="https://github.com/'+userResponseJson.items[i].login+'?tab=repositories">Public repos</a></li>');
   //create HTML for each list element about a user 
 }
 
